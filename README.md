@@ -8,23 +8,32 @@ Convert English numbers to Bangla number or Bangla text, Bangla month name and B
 Maximum possible number to covert in Bangla word is 999999999999999
 
 == Description ==
+
 Easy shortcode plugin for converting any english number to Bangla word or money format or in month name. 
+
 Just use, [ntb_num value=value_here format=format_here][/ntb_num]
 
 == Installation ==
+
 INSTALLATION FROM WITHIN WORDPRESS
-Visit Plugins > Add New.
-Search for \"Number to Bangla\".
-Install and activate \"Number to Bangla\".
+
+-Visit Plugins > Add New.
+-Search for \"Number to Bangla\".
+-Install and activate \"Number to Bangla\".
 
 MANUAL INSTALLATION
-Upload the entire \"number-to-bangla\" folder to the /wp-content/plugins/ directory.
-Visit Plugins.
-Activate \"Number to Bangla\" plugin.
+
+-Upload the entire \"number-to-bangla\" folder to the /wp-content/plugins/ directory.
+-Visit Plugins.
+-Activate \"Number to Bangla\" plugin.
 
 USAGE
-To convert any number into bangla word [ntb_num value=111 format=\"word\"][/ntb_num] , 111 is an example number.
-একশত এগারো
+
+To convert any number into bangla word, 
+
+[ntb_num value=111 format=\"word\"][/ntb_num] , 111 is an example number. -> একশত এগারো
+
+
 Other available formats:
 word: 
     13459 ->	তেরো হাজার চার শত ঊনষাট
