@@ -1,16 +1,15 @@
-# wp-number-to-bangla
-=== Number to Bangla ===
-Contributors: rkb007
-Tags: number, bangla, bangla word, money, money format, bangla month
+# wp-number-to-bangla plugin
 Requires at least: 5.0
 Tested up to: 5.6.2
 Requires PHP: 7.2
 License: GPLv2 or later
 
-Convert English numbers to Bangla number or Bangla text, Bangla month name and Bangla Money Format. Maximum possible number to covert in Bangla word is 999999999999999
+Convert English numbers to Bangla number or Bangla text, Bangla month name and Bangla Money Format. 
+Maximum possible number to covert in Bangla word is 999999999999999
 
 == Description ==
-Easy shortcode plugin for converting any english number to Bangla word or money format or in month name. Just use, [ntb_num value=value_here format=format_here][/ntb_num]
+Easy shortcode plugin for converting any english number to Bangla word or money format or in month name. 
+Just use, [ntb_num value=value_here format=format_here][/ntb_num]
 
 == Installation ==
 INSTALLATION FROM WITHIN WORDPRESS
