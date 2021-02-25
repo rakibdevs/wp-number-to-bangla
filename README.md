@@ -18,6 +18,30 @@ Just use,
 ```[ntb_num value=value_here format=format_here][/ntb_num]```
 
 
+Available Options:
+
+### Number  
+`[ntb_num value="111" format="number"][/ntb_num]` 
+
+Output:  ১১১  
+### Word   
+`[ntb_num value="1345.05" format="word"][/ntb_num]`  
+
+Output: এক হাজার তিন শত পঁয়তাল্লিশ দশমিক শূন্য পাঁচ 
+### Money Format  
+`[ntb_num value="1345.50" format="money"][/ntb_num]`
+
+Output:  এক হাজার তিন শত পঁয়তাল্লিশ টাকা পঞ্চাশ পয়সা 
+### Month 
+`[ntb_num value="12" format="month"][/ntb_num]` 
+
+Output: এক হাজার তিন শত পঁয়তাল্লিশ দশমিক শূন্য পাঁচ 
+### Comma (Lakh) 
+`[ntb_num value="121212121" format="comma"][/ntb_num]` 
+
+Output: ১২,১২,১২,১২১ 
+
+
 ## INSTALLATION FROM WITHIN WORDPRESS
 
 - Visit Plugins > Add New.
@@ -37,17 +61,4 @@ To convert any number into bangla word,
 `[ntb_num value="111" format="word"][/ntb_num]` 111 is an example number. *Output* `একশত এগারো`
 
 
-Other available formats:
-- word: 
 
-    13459 ->	তেরো হাজার চার শত ঊনষাট
-    
-    1345.05 ->	এক হাজার তিন শত পঁয়তাল্লিশ দশমিক শূন্য পাঁচ
-- number:
-    1345.5 ->	১৩৪৫.৫
-- money:	
-    1345.50 ->	এক হাজার তিন শত পঁয়তাল্লিশ টাকা পঞ্চাশ পয়সা
-- month:	
-    12 ->	ডিসেম্বর
-- comma:	
-    121212121 ->	১২,১২,১২,১২১
