@@ -1,51 +1,53 @@
 <?php
+
 /**
  * Plugin Name: Number to Bangla
- * Plugin URI: 
- * Description: Convert English numbers to Bangla number or Bangla text, Bangla month name and Bangla Money Format. Maximum possible number to covert in Bangla word is 999999999999999.
+ * Plugin URI: https://wordpress.org/plugins/number-to-bangla/
+ * Description: "Number to Bangla" is a WordPress plugin that allows you to convert English numbers to Bangla numbers, Bangla text, Bangla month names, and Bangla money format. It supports numbers up to 999,999,999,999,999 and provides shortcode options to easily display converted numbers on your websit
  * Version: 1.0.0
  * License: GPLv2 or later
  * Text Domain: number-to-bangla
  * Author: Md. Rakibul Islam
- * Author URI: https://rakibul.dev
+ * Author URI: https://github.com/rakibdevs
  */
 
-define( 'NTB__PLUGIN_DIR', plugin_dir_path(__FILE__) );
+defined('NTB_PLUGIN_DIR') || define('NTB_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
-require_once( NTB__PLUGIN_DIR . 'class.banglanumber.php' );
+require_once(NTB_PLUGIN_DIR . 'class.banglanumber.php');
 
-function init_ntb_tags($atts = array(), $tag = '')
+function init_ntb_tags($atts = [], $tag = '')
 {
-	$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+    $atts = array_change_key_case((array) $atts, CASE_LOWER);
     return shortcode_atts(
-        array(
+        [
             'value' => null,
             'format' => null,
-        ), $atts
+        ],
+        $atts
     );
 }
 
-function ntb_num( $atts = array(), $content = null, $tag = '' ) 
+function ntb_num($atts = [], $content = null, $tag = '')
 {
-    $ntb_atts = init_ntb_tags($atts,$tag);
+    $ntb_atts = init_ntb_tags($atts, $tag);
 
-    switch( $ntb_atts['format']){
-        case 'number': 
+    switch ($ntb_atts['format']) {
+        case 'number':
             $output = BanglaNumber::bnNum($ntb_atts['value']);
             break;
         case 'money':
-    		$output = BanglaNumber::bnMoney($ntb_atts['value']);
-    		break;
-    	case 'word':
-    		$output = BanglaNumber::bnWord($ntb_atts['value']);
-    		break;
-    	case 'month':
-    		$output = BanglaNumber::bnMonth($ntb_atts['value']);
-    		break;
-    	case 'comma':
-    		$output = BanglaNumber::bnCommaLakh($ntb_atts['value']);
-    		break;
-    	default:
+            $output = BanglaNumber::bnMoney($ntb_atts['value']);
+            break;
+        case 'word':
+            $output = BanglaNumber::bnWord($ntb_atts['value']);
+            break;
+        case 'month':
+            $output = BanglaNumber::bnMonth($ntb_atts['value']);
+            break;
+        case 'comma':
+            $output = BanglaNumber::bnCommaLakh($ntb_atts['value']);
+            break;
+        default:
             $output = '';
             break;
     }
@@ -54,9 +56,9 @@ function ntb_num( $atts = array(), $content = null, $tag = '' )
 }
 
 
-function number_to_bangla() 
+function register_number_to_bangla_shortcode()
 {
-    add_shortcode('ntb_num', 'ntb_num' );
+    add_shortcode('ntb_num', 'ntb_num');
 }
- 
-add_action( 'init', 'number_to_bangla' );
+
+add_action('init', 'register_number_to_bangla_shortcode');
