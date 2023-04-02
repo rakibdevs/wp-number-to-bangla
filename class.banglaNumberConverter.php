@@ -23,25 +23,18 @@ class BanglaNumberConverter
 
     protected static $numbers = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
 
-
     public static function bnNum($num)
     {
-        $valid = self::isValidNumber($num);
-
-        if ($valid == false) {
+        if (!self::isValidNumber($num)) {
             return false;
         }
 
         return strtr($num, self::$numbers);
     }
 
-
     public static  function bnWord($num)
     {
-
-        $valid = self::isValidNumber($num);
-
-        if ($valid == false) {
+        if (!self::isValidNumber($num)) {
             return false;
         }
 
@@ -49,24 +42,21 @@ class BanglaNumberConverter
             return 'শূন্য';
         }
 
-        if (floatval($num) == $num) {
+        if (is_float($num) || strpos($num, '.') !== false) {
             $decimal = explode(".", $num);
             $text = self::numToWord($decimal[0]);
             if (isset($decimal[1]) && $decimal[1] > 0) {
                 $text .= ' দশমিক ' . self::convertDecimalPartToWords((string)$decimal[1]);
             }
             return $text;
-        } else {
-            return self::numToWord($num);
         }
+
+        return self::numToWord($num);
     }
 
     public static function bnMoney($num)
     {
-
-        $valid = self::isValidNumber($num);
-
-        if ($valid == false) {
+        if (!self::isValidNumber($num)) {
             return false;
         }
 
@@ -74,37 +64,32 @@ class BanglaNumberConverter
             return 'শূন্য টাকা';
         }
 
-        if (floatval($num) == $num) {
-            $money  = number_format(floatval($num), 2, '.', '');
-
-            $decimal = explode(".", $money);
-            $text = self::numToWord($decimal[0]) . ' টাকা ';
-            if (isset($decimal[1]) && $decimal[1] > 0) {
-                $text .= self::$words[(int)$decimal[1]] . ' পয়সা';
-            }
-            return $text;
-        } else {
-            return self::numToWord($num) . ' টাকা ';
+        $money = number_format((float) $num, 2, '.', '');
+        $decimal = explode(".", $money);
+        $text = self::numToWord($decimal[0]) . ' টাকা ';
+        if (isset($decimal[1]) && $decimal[1] > 0) {
+            $text .= self::$words[(int) $decimal[1]] . ' পয়সা';
         }
-    }
 
+        return $text;
+    }
 
     public static function bnMonth($num)
     {
-        return (is_numeric($num) && $num >= 1 && $num <= 12) ? self::$bnMonth[(int)$num] : false;
+        return (is_numeric($num) && $num >= 1 && $num <= 12)
+            ? self::$bnMonth[(int)$num]
+            : false;
     }
 
     public static function bnCommaLakh($num)
     {
-        $valid = self::isValidNumber($num);
-
-        if ($valid == false) {
+        if (!self::isValidNumber($num)) {
             return false;
         }
 
-        $n = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $num);
+        $withCommaNumber = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $num);
 
-        return strtr($n, self::$numbers);
+        return strtr($withCommaNumber, self::$numbers);
     }
 
     /**
@@ -121,50 +106,54 @@ class BanglaNumberConverter
             abs($number) <= 999999999999999;
     }
 
-    protected static function numToWord($num)
+    /**
+     * Converts a number to its Bangla word representation.
+     *
+     * @param int $num The number to convert.
+     *
+     * @return string|false 
+     */
+    protected static function numToWord(int $num)
     {
-
         $text = '';
-
-        $crore = (int) ($num / 10000000);
-        if ($crore != 0) {
-            if ($crore > 99) {
-                $text .= self::bnWord($crore) . ' কোটি ';
+        $toCrore = (int)($num / 10000000);
+        if ($toCrore !== 0) {
+            if ($toCrore > 99) {
+                $text .= self::bnWord($toCrore) . ' কোটি ';
             } else {
-                $text .= self::$words[$crore] . ' কোটি ';
+                $text .= self::$words[$toCrore] . ' কোটি ';
             }
         }
 
+        $croreDiv = $num % 10000000;
 
-        $crore_div = $num % 10000000;
-
-        $lakh = (int) ($crore_div / 100000);
-        if ($lakh > 0) {
-            $text .= self::$words[$lakh] . ' লক্ষ ';
+        $toLakh = (int)($croreDiv / 100000);
+        if ($toLakh > 0) {
+            $text .= self::$words[$toLakh] . ' লক্ষ ';
         }
 
-        $lakh_div = $crore_div % 100000;
+        $lakhDiv = $croreDiv % 100000;
 
-        $thousand = (int) ($lakh_div / 1000);
-        if ($thousand > 0) {
-            $text .= self::$words[$thousand] . ' হাজার ';
+        $toThousand = (int)($lakhDiv / 1000);
+        if ($toThousand > 0) {
+            $text .= self::$words[$toThousand] . ' হাজার ';
         }
 
-        $thousand_div = $lakh_div % 1000;
+        $thousandDiv = $lakhDiv % 1000;
 
-        $hundred = (int) ($thousand_div / 100);
-        if ($hundred > 0) {
-            $text .= self::$words[$hundred] . ' শত ';
+        $toHundred = (int)($thousandDiv / 100);
+        if ($toHundred > 0) {
+            $text .= self::$words[$toHundred] . ' শত ';
         }
 
-        $hundred_div = (int) ($thousand_div % 100);
-        if ($hundred_div > 0) {
-            $text .= self::$words[$hundred_div];
+        $hundredDiv = (int)($thousandDiv % 100);
+        if ($hundredDiv > 0) {
+            $text .= self::$words[$hundredDiv];
         }
-
 
         return $text;
     }
+
 
     private static function convertDecimalPartToWords($number)
     {
