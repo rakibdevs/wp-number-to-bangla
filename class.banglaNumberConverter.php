@@ -1,6 +1,6 @@
 <?php
 
-class BanglaNumber
+class BanglaNumberConverter
 {
 
     protected static $words = array(
@@ -179,7 +179,7 @@ class BanglaNumber
         return $text;
     }
 
-    protected  function numToDecimalWord($num)
+    protected static function numToDecimalWord($num)
     {
         $decimals = str_split($num);
         $text = '';

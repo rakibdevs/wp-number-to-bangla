@@ -13,11 +13,11 @@
 
 defined('NTB_PLUGIN_DIR') || define('NTB_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
-require_once(NTB_PLUGIN_DIR . 'class.banglanumber.php');
+require_once(NTB_PLUGIN_DIR . 'class.banglaNumberConverter.php');
 
 function init_ntb_tags($atts = [], $tag = '')
 {
-    $atts = array_change_key_case((array) $atts, CASE_LOWER);
+    $atts = array_change_key_case($atts, CASE_LOWER);
     return shortcode_atts(
         [
             'value' => null,
@@ -29,23 +29,24 @@ function init_ntb_tags($atts = [], $tag = '')
 
 function ntb_num($atts = [], $content = null, $tag = '')
 {
-    $ntb_atts = init_ntb_tags($atts, $tag);
+    $ntbAttributes = init_ntb_tags($atts, $tag);
+    $shortCodeValue = $ntbAttributes['value'];
 
-    switch ($ntb_atts['format']) {
+    switch ($ntbAttributes['format']) {
         case 'number':
-            $output = BanglaNumber::bnNum($ntb_atts['value']);
+            $output = BanglaNumberConverter::bnNum($shortCodeValue);
             break;
         case 'money':
-            $output = BanglaNumber::bnMoney($ntb_atts['value']);
+            $output = BanglaNumberConverter::bnMoney($shortCodeValue);
             break;
         case 'word':
-            $output = BanglaNumber::bnWord($ntb_atts['value']);
+            $output = BanglaNumberConverter::bnWord($shortCodeValue);
             break;
         case 'month':
-            $output = BanglaNumber::bnMonth($ntb_atts['value']);
+            $output = BanglaNumberConverter::bnMonth($shortCodeValue);
             break;
         case 'comma':
-            $output = BanglaNumber::bnCommaLakh($ntb_atts['value']);
+            $output = BanglaNumberConverter::bnCommaLakh($shortCodeValue);
             break;
         default:
             $output = '';
