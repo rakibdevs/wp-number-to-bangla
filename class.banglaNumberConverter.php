@@ -26,7 +26,7 @@ class BanglaNumberConverter
 
     public static function bnNum($num)
     {
-        $valid = self::checkValid($num);
+        $valid = self::isValidNumber($num);
 
         if ($valid == false) {
             return false;
@@ -39,7 +39,7 @@ class BanglaNumberConverter
     public static  function bnWord($num)
     {
 
-        $valid = self::checkValid($num);
+        $valid = self::isValidNumber($num);
 
         if ($valid == false) {
             return false;
@@ -64,7 +64,7 @@ class BanglaNumberConverter
     public static function bnMoney($num)
     {
 
-        $valid = self::checkValid($num);
+        $valid = self::isValidNumber($num);
 
         if ($valid == false) {
             return false;
@@ -103,7 +103,7 @@ class BanglaNumberConverter
 
     public static function bnCommaLakh($num)
     {
-        $valid = self::checkValid($num);
+        $valid = self::isValidNumber($num);
 
         if ($valid == false) {
             return false;
@@ -114,21 +114,18 @@ class BanglaNumberConverter
         return strtr($n, self::$numbers);
     }
 
-    protected static function checkValid($num)
+    /**
+     * Checks if a given number is valid or not.
+     *
+     * @param float|string $num The number to validate.
+     * @return bool Returns true if the number is valid, false otherwise.
+     */
+    protected static function isValidNumber($number)
     {
-        if (!is_numeric($num)) {
-            return false;
-        }
-
-        if ($num > 999999999999999) {
-            return false;
-        }
-
-        if (strpos($num, 'E') !== false) {
-            return false;
-        }
-
-        return true;
+        return is_numeric($number) &&
+            !preg_match('/\.\d+\./', $number) &&
+            !preg_match('/\d+E\d+/', $number) &&
+            abs($number) <= 999999999999999;
     }
 
     protected static function numToWord($num)
