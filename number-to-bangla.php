@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Number to Bangla
  * Plugin URI: https://wordpress.org/plugins/number-to-bangla/
- * Description: "Number to Bangla" is a WordPress plugin that allows you to convert English numbers to Bangla numbers, Bangla text, Bangla month names, and Bangla money format. It supports numbers up to 999,999,999,999,999 and provides shortcode options to easily display converted numbers on your websit
+ * Description: "Number to Bangla" is a WordPress plugin that allows you to convert English numbers to Bangla numbers, Bangla text, Bangla month names, and Bangla money format. It supports numbers up to 999,999,999,999,999 and provides shortcode options to easily display converted numbers on your website
  * Version: 1.1.0
  * License: GPLv2 or later
  * Text Domain: number-to-bangla
