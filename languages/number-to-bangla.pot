@@ -1,0 +1,116 @@
+# Copyright (C) 2026 Md. Rakibul Islam
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Number to Bangla 2.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/number-to-bangla\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-06-27T00:00:00+00:00\n"
+"X-Domain: number-to-bangla\n"
+
+#: includes/class-ntb-rest.php
+msgid "Could not convert the given value for the requested format."
+msgstr ""
+
+#: block/build/index.js
+msgid "Bangla number"
+msgstr ""
+
+#: block/build/index.js
+msgid "Bangla word"
+msgstr ""
+
+#: block/build/index.js
+msgid "Money (Taka)"
+msgstr ""
+
+#: block/build/index.js
+msgid "Comma (lakh)"
+msgstr ""
+
+#: block/build/index.js
+msgid "Percentage"
+msgstr ""
+
+#: block/build/index.js
+msgid "Gregorian month"
+msgstr ""
+
+#: block/build/index.js
+msgid "Bengali month"
+msgstr ""
+
+#: block/build/index.js
+msgid "Season"
+msgstr ""
+
+#: block/build/index.js
+msgid "Weekday"
+msgstr ""
+
+#: block/build/index.js
+msgid "Date"
+msgstr ""
+
+#: block/build/index.js
+msgid "Time"
+msgstr ""
+
+#: block/build/index.js
+msgid "Duration (seconds)"
+msgstr ""
+
+#: block/build/index.js
+msgid "Age (birth date)"
+msgstr ""
+
+#: block/build/index.js
+msgid "Ordinal"
+msgstr ""
+
+#: block/build/index.js
+msgid "Parse (Bangla → English)"
+msgstr ""
+
+#: block/build/index.js
+msgid "Value"
+msgstr ""
+
+#: block/build/index.js
+msgid "Format"
+msgstr ""
+
+#: block/build/index.js
+msgid "Prefix"
+msgstr ""
+
+#: block/build/index.js
+msgid "Suffix"
+msgstr ""
+
+#: block/build/index.js
+msgid "Spell out in words"
+msgstr ""
+
+#: block/build/index.js
+msgid "Date format"
+msgstr ""
+
+#: block/build/index.js
+msgid "PHP date tokens: j F, Y"
+msgstr ""
+
+#: block/build/index.js
+msgid "Conversion settings"
+msgstr ""
+
+#: block/build/index.js
+msgid "Enter a value in the block settings…"
+msgstr ""
+
+#: block/build/index.js
+msgid "— invalid input —"
+msgstr ""

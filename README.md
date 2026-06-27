@@ -1,64 +1,98 @@
-# Wordpress Number to Bangla Plugin
-✅ Requires at least: 5.0 
-✅ Tested up to: 5.6.2 
-✅ Requires PHP: 7.2 
-✅ License: GPLv2 or later 
+# WordPress Number to Bangla Plugin
 
+✅ Requires at least: 5.0
+✅ Tested up to: 6.5
+✅ Requires PHP: 7.4
+✅ Stable tag: 2.0.0
+✅ License: GPLv2 or later
 
 <img src="https://github.com/RakibDevs/wp-number-to-bangla/blob/master/assets/banner-772x250.png">
 
-Convert English numbers to Bangla number or Bangla text, Bangla month name and Bangla Money Format. 
-Maximum possible number to covert in Bangla word is 999999999999999
+Convert English numbers to Bangla digits, words, money, dates, months, seasons, durations, ages, ordinals and more — via shortcode, Gutenberg block, REST API or PHP template helpers.
+
+Maximum convertible number is **999,999,999,999,999**.
 
 ## Description
 
-Easy shortcode plugin for converting any english number to Bangla word or money format or in month name. 
+Use the `[ntb_num]` shortcode, the **Number to Bangla** block, the REST API, or template helper functions to convert numbers into Bangla in many formats.
 
-Just use, 
-```[ntb_num value=value_here format=format_here][/ntb_num]```
+```
+[ntb_num value="value_here" format="format_here"]
+```
 
+## Shortcode formats
 
-Available Options:
+| Format | Example | Output |
+| --- | --- | --- |
+| `number` | `[ntb_num value="111" format="number"]` | ১১১ |
+| `word` | `[ntb_num value="1345.05" format="word"]` | এক হাজার তিন শত পঁয়তাল্লিশ দশমিক শূন্য পাঁচ |
+| `money` | `[ntb_num value="1345.50" format="money"]` | এক হাজার তিন শত পঁয়তাল্লিশ টাকা পঞ্চাশ পয়সা |
+| `comma` | `[ntb_num value="121212121" format="comma"]` | ১২,১২,১২,১২১ |
+| `percentage` | `[ntb_num value="75" format="percentage"]` | ৭৫ শতাংশ |
+| `month` | `[ntb_num value="12" format="month"]` | ডিসেম্বর |
+| `bengali-month` | `[ntb_num value="1" format="bengali-month"]` | বৈশাখ |
+| `season` | `[ntb_num value="1" format="season"]` | গ্রীষ্ম |
+| `day` | `[ntb_num value="monday" format="day"]` | সোমবার |
+| `date` | `[ntb_num value="2024-01-15" format="date"]` | ১৫ জানুয়ারি, ২০২৪ |
+| `time` | `[ntb_num value="14:30" format="time"]` | ১৪:৩০ |
+| `duration` | `[ntb_num value="3665" format="duration"]` | ১ ঘণ্টা ১ মিনিট ৫ সেকেন্ড |
+| `age` | `[ntb_num value="1990-01-15" format="age"]` | ৩৫ বছর … |
+| `ordinal` | `[ntb_num value="25" format="ordinal"]` | ২৫তম |
+| `parse` | `[ntb_num value="১২৩৪৫" format="parse"]` | 12345 |
 
-### Number  
-`[ntb_num value="111" format="number"][/ntb_num]` 
+### Optional shortcode attributes
 
-Output:  ১১১  
-### Word   
-`[ntb_num value="1345.05" format="word"][/ntb_num]`  
+- `prefix`, `suffix` — text wrapped around the output.
+- `words="true"` — spell out `percentage` and `time` values in words.
+- `date_format="d/m/Y"` — output format for `date` (PHP `date()` tokens: `d j m n F Y y l D`).
+- `as_of="2025-03-20"` — reference date for `age`.
 
-Output: এক হাজার তিন শত পঁয়তাল্লিশ দশমিক শূন্য পাঁচ 
-### Money Format  
-`[ntb_num value="1345.50" format="money"][/ntb_num]`
+```
+[ntb_num value="14:30" format="time" words="true"]   →  দুপুর দুইটা ত্রিশ মিনিট
+[ntb_num value="123" format="ordinal" prefix="অবস্থান: "]  →  অবস্থান: ১২৩তম
+```
 
-Output:  এক হাজার তিন শত পঁয়তাল্লিশ টাকা পঞ্চাশ পয়সা 
-### Month 
-`[ntb_num value="12" format="month"][/ntb_num]` 
+## Gutenberg block
 
-Output: এক হাজার তিন শত পঁয়তাল্লিশ দশমিক শূন্য পাঁচ 
-### Comma (Lakh) 
-`[ntb_num value="121212121" format="comma"][/ntb_num]` 
+Add the **Number to Bangla** block in the editor, pick a value and format, and the output renders live (powered by the REST endpoint). The block is server-rendered, so the front-end always reflects current conversion logic.
 
-Output: ১২,১২,১২,১২১ 
+## REST API
 
+```
+GET /wp-json/ntb/v1/convert?value=1345.50&format=money
+→ { "input": "1345.50", "format": "money", "output": "এক হাজার তিন শত পঁয়তাল্লিশ টাকা পঞ্চাশ পয়সা" }
+```
 
-## INSTALLATION FROM WITHIN WORDPRESS
+Query args: `value` (required), `format` (required), `prefix`, `suffix`, `words`, `date_format`.
 
+## Template helpers (PHP)
+
+```php
+ntb_to_number( 111 );          // ১১১
+ntb_to_word( 111 );            // এক শত এগারো
+ntb_to_money( 1345.50 );       // এক হাজার তিন শত পঁয়তাল্লিশ টাকা পঞ্চাশ পয়সা
+ntb_to_date( '2024-01-15' );   // ১৫ জানুয়ারি, ২০২৪
+ntb_ordinal( 25 );             // ২৫তম
+ntb_convert( $value, $format, $args ); // generic dispatcher
+```
+
+Filter the output with the `ntb_convert_output` filter.
+
+## Installation
+
+### From within WordPress
 - Visit Plugins > Add New.
 - Search for "Number to Bangla".
 - Install and activate "Number to Bangla".
 
-## MANUAL INSTALLATION
+### Manual installation
+- Upload the entire `number-to-bangla` folder to `/wp-content/plugins/`.
+- Visit Plugins and activate "Number to Bangla".
 
-- Upload the entire "number-to-bangla" folder to the /wp-content/plugins/ directory.
-- Visit Plugins.
-- Activate "Number to Bangla" plugin.
+## Development
 
-## USAGE
+Run the unit tests with PHPUnit (no WordPress required — the converter is framework-free):
 
-To convert any number into bangla word, 
-
-`[ntb_num value="111" format="word"][/ntb_num]` 111 is an example number. *Output* `একশত এগারো`
-
-
-
+```
+phpunit -c phpunit.xml.dist
+```
