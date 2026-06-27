@@ -64,8 +64,8 @@ Template helpers (PHP):
 Developers can filter output via the `ntb_convert_output` filter.
 
 == Screenshots ==
-1. Using the `[ntb_num]` shortcode to convert numbers in a post.
-2. Example output of the available Bangla formats.
+1. The "Number to Bangla" block in the editor — choose a value and format with a live preview.
+2. Block and shortcode output rendered on the front-end across multiple Bangla formats.
 
 == Changelog ==
 
