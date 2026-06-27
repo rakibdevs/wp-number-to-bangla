@@ -45,6 +45,15 @@ rsync -a --delete \
 mkdir -p "${BUILD}/assets"
 rsync -a --delete "${PLUGIN_DIR}/assets/" "${BUILD}/assets/"
 
+# 2b) Purge dev files that must never ship, even if a previous trunk had them.
+#     (rsync --exclude protects these from --delete, so remove them explicitly;
+#     the deletion pass below then schedules them for svn rm. We only ever touch
+#     named paths under trunk/, never the .svn metadata directory.)
+for distfile in README.md tests phpunit.xml.dist bin .github .gitignore .distignore \
+                node_modules vendor composer.json composer.lock package.json package-lock.json; do
+  rm -rf "${BUILD}/trunk/${distfile}"
+done
+
 # 3) Stage adds/removes in trunk and assets.
 cd "${BUILD}"
 svn add --force trunk assets >/dev/null 2>&1 || true
