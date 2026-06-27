@@ -43,13 +43,15 @@ rsync -a --delete \
 
 # 2) Marketing assets live at the SVN repo root, not in trunk.
 mkdir -p "${BUILD}/assets"
-rsync -a "${PLUGIN_DIR}/assets/" "${BUILD}/assets/"
+rsync -a --delete "${PLUGIN_DIR}/assets/" "${BUILD}/assets/"
 
 # 3) Stage adds/removes in trunk and assets.
 cd "${BUILD}"
 svn add --force trunk assets >/dev/null 2>&1 || true
-# Remove files deleted from trunk since the last release.
-svn status trunk | awk '/^!/ {print $2}' | xargs -r svn rm
+# Schedule deletions for files removed since the last release (portable; no xargs -r).
+svn status trunk assets | awk '/^!/ {print $2}' | while IFS= read -r f; do
+  [ -n "${f}" ] && svn rm --force "${f}"
+done
 
 # 4) Create the version tag from the finalized trunk.
 if svn info "${SVN_URL}/tags/${VERSION}" >/dev/null 2>&1; then
