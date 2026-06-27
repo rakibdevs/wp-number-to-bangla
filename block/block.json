@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "ntb/converter",
+    "version": "2.0.0",
+    "title": "Number to Bangla",
+    "category": "widgets",
+    "icon": "translation",
+    "description": "Convert English numbers to Bangla digits, words, money, dates, months, seasons, ordinals and more.",
+    "keywords": ["bangla", "number", "bengali", "money", "date"],
+    "textdomain": "number-to-bangla",
+    "attributes": {
+        "value": { "type": "string", "default": "" },
+        "format": { "type": "string", "default": "number" },
+        "prefix": { "type": "string", "default": "" },
+        "suffix": { "type": "string", "default": "" },
+        "words": { "type": "boolean", "default": false },
+        "dateFormat": { "type": "string", "default": "j F, Y" }
+    },
+    "supports": {
+        "html": false,
+        "align": ["left", "center", "right"]
+    },
+    "editorScript": "file:./build/index.js"
+}

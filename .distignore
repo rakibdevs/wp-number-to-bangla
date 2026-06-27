@@ -1,0 +1,17 @@
+# Files and folders that must NOT ship in the WordPress.org plugin (trunk).
+.git
+.github
+.gitignore
+.distignore
+.phpunit.result.cache
+tests
+phpunit.xml.dist
+README.md
+assets
+bin
+node_modules
+vendor
+composer.json
+composer.lock
+package.json
+package-lock.json
