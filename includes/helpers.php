@@ -11,6 +11,23 @@ if (!defined('ABSPATH')) {
     exit; // No direct access.
 }
 
+if (!function_exists('ntb_clean_affix')) {
+    /**
+     * Sanitize a prefix/suffix while preserving spaces.
+     *
+     * sanitize_text_field() trims and collapses whitespace, which drops the
+     * trailing space users add to a prefix (e.g. "মোট: "). This strips tags but
+     * keeps spacing intact; output is still escaped at render time.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    function ntb_clean_affix($value)
+    {
+        return wp_kses((string) $value, []);
+    }
+}
+
 if (!function_exists('ntb_convert')) {
     /**
      * Central conversion dispatcher shared by the shortcode, block and REST API.

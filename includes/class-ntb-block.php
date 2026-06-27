@@ -62,8 +62,8 @@ class NTB_Block
             return '';
         }
 
-        $prefix = isset($attributes['prefix']) ? (string) $attributes['prefix'] : '';
-        $suffix = isset($attributes['suffix']) ? (string) $attributes['suffix'] : '';
+        $prefix = isset($attributes['prefix']) ? ntb_clean_affix($attributes['prefix']) : '';
+        $suffix = isset($attributes['suffix']) ? ntb_clean_affix($attributes['suffix']) : '';
 
         $wrapper = function_exists('get_block_wrapper_attributes')
             ? get_block_wrapper_attributes()

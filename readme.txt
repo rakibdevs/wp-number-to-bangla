@@ -64,8 +64,9 @@ Template helpers (PHP):
 Developers can filter output via the `ntb_convert_output` filter.
 
 == Screenshots ==
-1. The "Number to Bangla" block in the editor — choose a value and format with a live preview.
-2. Block and shortcode output rendered on the front-end across multiple Bangla formats.
+1. All conversion formats rendered on the front-end with the `[ntb_num]` shortcode.
+2. The "Number to Bangla" block in the editor — value, format, prefix and suffix with a live preview.
+3. Inserting the "Number to Bangla" block from the block inserter.
 
 == Changelog ==
 
@@ -78,6 +79,7 @@ Developers can filter output via the `ntb_convert_output` filter.
 * Refactored into an `includes/` structure; added ABSPATH guards, output escaping and attribute sanitization.
 * Added i18n (text domain loading + translation template).
 * Fixed trailing spaces in word output and added negative-number support (ঋণাত্মক).
+* Fixed Gutenberg block registration in the editor (declared script dependencies) and preserved spaces in prefix/suffix.
 * Added PHPUnit test suite.
 * Bumped: Requires PHP 7.4, Tested up to 6.5.
 

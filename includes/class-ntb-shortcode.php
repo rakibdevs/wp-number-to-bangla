@@ -76,8 +76,8 @@ class NTB_Shortcode
             return '';
         }
 
-        $prefix = sanitize_text_field((string) $atts['prefix']);
-        $suffix = sanitize_text_field((string) $atts['suffix']);
+        $prefix = ntb_clean_affix($atts['prefix']);
+        $suffix = ntb_clean_affix($atts['suffix']);
 
         return esc_html($prefix . $output . $suffix);
     }

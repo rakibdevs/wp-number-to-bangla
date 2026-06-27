@@ -47,11 +47,11 @@ class NTB_Rest
                     ],
                     'prefix' => [
                         'default'           => '',
-                        'sanitize_callback' => 'sanitize_text_field',
+                        'sanitize_callback' => 'ntb_clean_affix',
                     ],
                     'suffix' => [
                         'default'           => '',
-                        'sanitize_callback' => 'sanitize_text_field',
+                        'sanitize_callback' => 'ntb_clean_affix',
                     ],
                     'words' => [
                         'default' => false,
