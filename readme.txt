@@ -1,6 +1,6 @@
 === Number to Bangla ===
 Contributors: rkb007
-Tags: number, bangla, bengali, money, date, ordinal
+Tags: number, bangla, bengali, money, date
 Requires at least: 5.0
 Tested up to: 6.5
 Requires PHP: 7.4
@@ -8,7 +8,7 @@ Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Convert English numbers to Bangla digits, words, money, dates, months, seasons, durations, ages, ordinals and more — via shortcode, block, REST API or PHP helpers. Maximum number is 999999999999999.
+Convert English numbers to Bangla digits, words, money, dates, ordinals and more — via shortcode, block, REST API or PHP helpers.
 
 == Description ==
 Number to Bangla converts English numbers into Bangla in many formats. Use it with the `[ntb_num]` shortcode, the "Number to Bangla" Gutenberg block, the REST API, or directly from your theme with template helper functions.
@@ -62,6 +62,10 @@ Template helpers (PHP):
 `ntb_to_word( 111 )`, `ntb_to_number( 111 )`, `ntb_to_money( 1345.50 )`, `ntb_to_date( '2024-01-15' )`, `ntb_ordinal( 25 )`, and the generic `ntb_convert( $value, $format, $args )`.
 
 Developers can filter output via the `ntb_convert_output` filter.
+
+== Screenshots ==
+1. Using the `[ntb_num]` shortcode to convert numbers in a post.
+2. Example output of the available Bangla formats.
 
 == Changelog ==
 
