@@ -18,8 +18,13 @@ class BanglaNumberConverter
 {
     /**
      * The documented maximum convertible number.
+     *
+     * Capped just under 1 arab (10^9): numToWord() only names magnitudes up
+     * to কোটি (crore, 10^7) and recurses for the crore digit group itself
+     * once it exceeds 99, which reads as non-idiomatic Bangla ("X কোটি Y
+     * কোটি...") for values at or above 1,000,000,000.
      */
-    const MAX_NUMBER = 999999999999999;
+    const MAX_NUMBER = 999999999;
 
     protected static $words = [
         'শূন্য', 'এক', 'দুই', 'তিন', 'চার', 'পাঁচ', 'ছয়', 'সাত', 'আট', 'নয়', 'দশ', 'এগারো', 'বারো', 'তেরো', 'চৌদ্দ', 'পনেরো', 'ষোল', 'সতেরো', 'আঠারো', 'উনিশ', 'বিশ', 'একুশ', 'বাইশ', 'তেইশ', 'চব্বিশ', 'পঁচিশ', 'ছাব্বিশ', 'সাতাশ', 'আঠাশ', 'ঊনত্রিশ', 'ত্রিশ', 'একত্রিশ', 'বত্রিশ', 'তেত্রিশ', 'চৌত্রিশ', 'পঁয়ত্রিশ', 'ছত্রিশ', 'সাঁইত্রিশ', 'আটত্রিশ', 'ঊনচল্লিশ', 'চল্লিশ', 'একচল্লিশ', 'বিয়াল্লিশ', 'তেতাল্লিশ', 'চুয়াল্লিশ', 'পঁয়তাল্লিশ', 'ছেচল্লিশ', 'সাতচল্লিশ', 'আটচল্লিশ', 'ঊনপঞ্চাশ', 'পঞ্চাশ', 'একান্ন', 'বাহান্ন', 'তিপ্পান্ন', 'চুয়ান্ন', 'পঞ্চান্ন', 'ছাপ্পান্ন', 'সাতান্ন', 'আটান্ন', 'ঊনষাট', 'ষাট', 'একষট্টি', 'বাষট্টি', 'তেষট্টি', 'চৌষট্টি', 'পঁয়ষট্টি', 'ছেষট্টি', 'সাতষট্টি', 'আটষট্টি', 'ঊনসত্তর', 'সত্তর', 'একাত্তর', 'বাহাত্তর', 'তিয়াত্তর', 'চুয়াত্তর', 'পঁচাত্তর', 'ছিয়াত্তর', 'সাতাত্তর', 'আটাত্তর', 'ঊনআশি', 'আশি', 'একাশি', 'বিরাশি', 'তিরাশি', 'চুরাশি', 'পঁচাশি', 'ছিয়াশি', 'সাতাশি', 'আটাশি', 'ঊননব্বই', 'নব্বই', 'একানব্বই', 'বিরানব্বই', 'তিরানব্বই', 'চুরানব্বই', 'পঁচানব্বই', 'ছিয়ানব্বই', 'সাতানব্বই', 'আটানব্বই', 'নিরানব্বই'
@@ -303,8 +308,11 @@ class BanglaNumberConverter
      */
     public static function bnDate($date, $format = 'j F, Y')
     {
-        $timestamp = is_numeric($date) ? (int) $date : strtotime((string) $date);
-        if ($timestamp === false) {
+        try {
+            $dt = is_numeric($date)
+                ? new DateTime('@' . (int) $date)
+                : new DateTime((string) $date, new DateTimeZone('UTC'));
+        } catch (Exception $e) {
             return false;
         }
 
@@ -319,14 +327,14 @@ class BanglaNumberConverter
                 case 'n':
                 case 'Y':
                 case 'y':
-                    $out .= self::bnNum(date($token, $timestamp));
+                    $out .= self::bnNum($dt->format($token));
                     break;
                 case 'F':
-                    $out .= self::bnMonth((int) date('n', $timestamp));
+                    $out .= self::bnMonth((int) $dt->format('n'));
                     break;
                 case 'l':
                 case 'D':
-                    $out .= self::bnDay((int) date('w', $timestamp));
+                    $out .= self::bnDay((int) $dt->format('w'));
                     break;
                 default:
                     $out .= $token;
@@ -341,24 +349,25 @@ class BanglaNumberConverter
      * Convert a time to Bangla, either as digits ("১৪:৩০") or as words with a
      * time-of-day prefix ("দুপুর দুইটা ত্রিশ মিনিট").
      *
-     * @param string $time    Any time string parseable by strtotime().
+     * @param string $time    Any time string parseable by DateTime.
      * @param bool   $inWords When true, return the spoken form.
      * @return string|false
      */
     public static function bnTime($time, $inWords = false)
     {
-        $timestamp = strtotime((string) $time);
-        if ($timestamp === false) {
+        try {
+            $dt = new DateTime((string) $time, new DateTimeZone('UTC'));
+        } catch (Exception $e) {
             return false;
         }
 
         if (!$inWords) {
-            return self::bnNum(date('H', $timestamp)) . ':' . self::bnNum(date('i', $timestamp));
+            return self::bnNum($dt->format('H')) . ':' . self::bnNum($dt->format('i'));
         }
 
-        $hour24 = (int) date('G', $timestamp);
-        $hour12 = (int) date('g', $timestamp);
-        $minute = (int) date('i', $timestamp);
+        $hour24 = (int) $dt->format('G');
+        $hour12 = (int) $dt->format('g');
+        $minute = (int) $dt->format('i');
 
         if ($hour24 >= 4 && $hour24 < 6) {
             $period = 'ভোর';

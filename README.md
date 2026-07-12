@@ -1,16 +1,16 @@
 # WordPress Number to Bangla Plugin
 
-✅ Requires at least: 5.0
-✅ Tested up to: 6.5
+✅ Requires at least: 5.6
+✅ Tested up to: 7.0
 ✅ Requires PHP: 7.4
-✅ Stable tag: 2.0.0
+✅ Stable tag: 2.0.1
 ✅ License: GPLv2 or later
 
 <img src="https://github.com/RakibDevs/wp-number-to-bangla/blob/master/assets/banner-772x250.png">
 
 Convert English numbers to Bangla digits, words, money, dates, months, seasons, durations, ages, ordinals and more — via shortcode, Gutenberg block, REST API or PHP template helpers.
 
-Maximum convertible number is **999,999,999,999,999**.
+Maximum convertible number is **999,999,999**.
 
 ## Description
 

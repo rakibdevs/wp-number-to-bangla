@@ -55,8 +55,8 @@ class ConverterTest extends TestCase
 
     public function testBnWordMaxNumber()
     {
-        $this->assertIsString(BanglaNumberConverter::bnWord(999999999999999));
-        $this->assertFalse(BanglaNumberConverter::bnWord(1000000000000000));
+        $this->assertIsString(BanglaNumberConverter::bnWord(999999999));
+        $this->assertFalse(BanglaNumberConverter::bnWord(1000000000));
     }
 
     /* ---- bnMoney ------------------------------------------------------- */

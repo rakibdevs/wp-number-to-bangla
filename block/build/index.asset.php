@@ -19,5 +19,5 @@ return array(
         'wp-i18n',
         'wp-url',
     ),
-    'version' => '2.0.0',
+    'version' => '2.0.1',
 );

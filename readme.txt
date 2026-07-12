@@ -1,10 +1,10 @@
 === Number to Bangla ===
 Contributors: rkb007
 Tags: number, bangla, bengali, money, date
-Requires at least: 5.0
-Tested up to: 6.5
+Requires at least: 5.6
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,12 @@ Developers can filter output via the `ntb_convert_output` filter.
 3. Inserting the "Number to Bangla" block from the block inserter.
 
 == Changelog ==
+
+= 2.0.1 =
+* Compatibility: tested up to WordPress 7.0; raised "Requires at least" to 5.6 (matches the block editor APIs used).
+* Fixed timezone-sensitive date/time conversion by parsing dates with DateTime in UTC instead of the runtime-dependent date() function.
+* Removed the manual text-domain loading call; WordPress loads translations automatically for the matching plugin slug (4.6+).
+* Lowered the maximum convertible number to 999,999,999 (was 999,999,999,999,999): values at or above 1 arab produced non-idiomatic Bangla word output ("X কোটি Y কোটি ...").
 
 = 2.0.0 =
 * New formats: percentage, bengali-month, season, day, date, time, duration, age, ordinal, and reverse parse.
