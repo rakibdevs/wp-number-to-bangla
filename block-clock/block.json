@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "ntb/clock",
+    "version": "2.1.0",
+    "title": "Bangla Clock",
+    "category": "widgets",
+    "icon": "clock",
+    "description": "A live-updating clock showing the current time in Bangla digits.",
+    "keywords": ["bangla", "clock", "time", "bengali"],
+    "textdomain": "number-to-bangla",
+    "attributes": {
+        "showSeconds": { "type": "boolean", "default": false }
+    },
+    "supports": {
+        "html": false,
+        "align": ["left", "center", "right"]
+    },
+    "editorScript": "file:./build/index.js",
+    "viewScript": "file:./build/view.js"
+}

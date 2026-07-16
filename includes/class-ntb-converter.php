@@ -308,11 +308,8 @@ class BanglaNumberConverter
      */
     public static function bnDate($date, $format = 'j F, Y')
     {
-        try {
-            $dt = is_numeric($date)
-                ? new DateTime('@' . (int) $date)
-                : new DateTime((string) $date, new DateTimeZone('UTC'));
-        } catch (Exception $e) {
+        $dt = self::parseDateInput($date);
+        if ($dt === false) {
             return false;
         }
 
@@ -331,6 +328,108 @@ class BanglaNumberConverter
                     break;
                 case 'F':
                     $out .= self::bnMonth((int) $dt->format('n'));
+                    break;
+                case 'l':
+                case 'D':
+                    $out .= self::bnDay((int) $dt->format('w'));
+                    break;
+                default:
+                    $out .= $token;
+                    break;
+            }
+        }
+
+        return $out;
+    }
+
+    /**
+     * ISO-8601 week number (1-53) of a date, in Bangla digits.
+     *
+     * @param string|int $date A date string or unix timestamp.
+     * @return string|false
+     */
+    public static function bnWeekNumber($date)
+    {
+        $dt = self::parseDateInput($date);
+        if ($dt === false) {
+            return false;
+        }
+
+        return self::bnNum((int) $dt->format('W'));
+    }
+
+    /**
+     * Convert a Gregorian date to the reformed Bengali (Bangla) calendar date
+     * used in Bangladesh since 1987 (fixed Pohela Boishakh on 14 April).
+     *
+     * Recognised format tokens (mirrors bnDate()): d, j, m, n, F, Y, y, l, D.
+     * F and n/m refer to the Bangla month; l/D still name the Gregorian
+     * weekday, since the Bangla calendar has no distinct weekday names.
+     *
+     * @param string|int $date   A date string or unix timestamp.
+     * @param string     $format Output format. Default "j F, Y".
+     * @return string|false
+     */
+    public static function bnBengaliDate($date, $format = 'j F, Y')
+    {
+        $dt = self::parseDateInput($date);
+        if ($dt === false) {
+            return false;
+        }
+
+        $gYear = (int) $dt->format('Y');
+        $newYearThisYear = new DateTime($gYear . '-04-14', new DateTimeZone('UTC'));
+
+        if ($dt >= $newYearThisYear) {
+            $banglaYear = $gYear - 593;
+            $newYearStart = $newYearThisYear;
+        } else {
+            $banglaYear = $gYear - 594;
+            $newYearStart = new DateTime(($gYear - 1) . '-04-14', new DateTimeZone('UTC'));
+        }
+
+        $daysSinceNewYear = (int) $newYearStart->diff($dt)->days;
+
+        $falgunLength = self::isGregorianLeapYear($banglaYear + 594) ? 31 : 30;
+        $monthLengths = [31, 31, 31, 31, 31, 30, 30, 30, 30, 30, $falgunLength, 30];
+
+        $monthIndex = 11; // 0-based; falls back to the last month if loop doesn't break early.
+        $dayInMonth = $daysSinceNewYear;
+        foreach ($monthLengths as $i => $length) {
+            if ($dayInMonth < $length) {
+                $monthIndex = $i;
+                break;
+            }
+            $dayInMonth -= $length;
+        }
+        $bDay = $dayInMonth + 1;
+        $bMonth = $monthIndex + 1;
+
+        $out = '';
+        $length = strlen($format);
+        for ($i = 0; $i < $length; $i++) {
+            $token = $format[$i];
+            switch ($token) {
+                case 'd':
+                    $out .= self::bnNum(str_pad((string) $bDay, 2, '0', STR_PAD_LEFT));
+                    break;
+                case 'j':
+                    $out .= self::bnNum($bDay);
+                    break;
+                case 'm':
+                    $out .= self::bnNum(str_pad((string) $bMonth, 2, '0', STR_PAD_LEFT));
+                    break;
+                case 'n':
+                    $out .= self::bnNum($bMonth);
+                    break;
+                case 'Y':
+                    $out .= self::bnNum($banglaYear);
+                    break;
+                case 'y':
+                    $out .= self::bnNum(str_pad((string) ($banglaYear % 100), 2, '0', STR_PAD_LEFT));
+                    break;
+                case 'F':
+                    $out .= self::bnBengaliMonth($bMonth);
                     break;
                 case 'l':
                 case 'D':
@@ -498,6 +597,37 @@ class BanglaNumberConverter
         }
 
         return strtr((string) $str, $map);
+    }
+
+    /**
+     * Parse a date string or unix timestamp into a UTC DateTime.
+     *
+     * Shared by bnDate() and bnBengaliDate() so both interpret their input
+     * identically regardless of server timezone.
+     *
+     * @param string|int $date
+     * @return DateTime|false
+     */
+    protected static function parseDateInput($date)
+    {
+        try {
+            return is_numeric($date)
+                ? new DateTime('@' . (int) $date)
+                : new DateTime((string) $date, new DateTimeZone('UTC'));
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Standard Gregorian leap year check.
+     *
+     * @param int $year
+     * @return bool
+     */
+    protected static function isGregorianLeapYear($year)
+    {
+        return ($year % 4 === 0 && $year % 100 !== 0) || $year % 400 === 0;
     }
 
     /**

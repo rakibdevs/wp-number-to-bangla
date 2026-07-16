@@ -30,12 +30,16 @@
 		{ label: __( 'Season', 'number-to-bangla' ), value: 'season' },
 		{ label: __( 'Weekday', 'number-to-bangla' ), value: 'day' },
 		{ label: __( 'Date', 'number-to-bangla' ), value: 'date' },
+		{ label: __( 'Bengali calendar date', 'number-to-bangla' ), value: 'bengali-date' },
+		{ label: __( 'Week number', 'number-to-bangla' ), value: 'week' },
 		{ label: __( 'Time', 'number-to-bangla' ), value: 'time' },
 		{ label: __( 'Duration (seconds)', 'number-to-bangla' ), value: 'duration' },
 		{ label: __( 'Age (birth date)', 'number-to-bangla' ), value: 'age' },
 		{ label: __( 'Ordinal', 'number-to-bangla' ), value: 'ordinal' },
 		{ label: __( 'Parse (Bangla → English)', 'number-to-bangla' ), value: 'parse' },
 	];
+
+	var DATE_FORMATS = [ 'date', 'bengali-date' ];
 
 	var WORD_FORMATS = [ 'percentage', 'time' ];
 
@@ -131,7 +135,7 @@
 			);
 		}
 
-		if ( attributes.format === 'date' ) {
+		if ( DATE_FORMATS.indexOf( attributes.format ) !== -1 ) {
 			controls.push(
 				el( components.TextControl, {
 					key: 'dateFormat',

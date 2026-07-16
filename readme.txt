@@ -2,16 +2,16 @@
 Contributors: rkb007
 Tags: number, bangla, bengali, money, date
 Requires at least: 5.6
-Tested up to: 7.0
+Tested up to: 7.0.1
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Convert English numbers to Bangla digits, words, money, dates, ordinals and more — via shortcode, block, REST API or PHP helpers.
+Convert English numbers to Bangla digits, words, money, dates, ordinals and more — via shortcode, block, REST API, WP-CLI or PHP helpers.
 
 == Description ==
-Number to Bangla converts English numbers into Bangla in many formats. Use it with the `[ntb_num]` shortcode, the "Number to Bangla" Gutenberg block, the REST API, or directly from your theme with template helper functions.
+Number to Bangla converts English numbers into Bangla in many formats. Use it with the `[ntb_num]` shortcode, the "Number to Bangla" and "Bangla Clock" Gutenberg blocks, the REST API (including batch conversion), an Elementor dynamic tag, the `wp ntb convert` WP-CLI command, or directly from your theme with template helper functions.
 
 Supported formats:
 
@@ -22,9 +22,11 @@ Supported formats:
 - **percentage** — `75` → `৭৫ শতাংশ` (add `words="true"` for spelled-out)
 - **month** — Gregorian month name (`12` → `ডিসেম্বর`)
 - **bengali-month** — Bengali calendar month (`1` → `বৈশাখ`)
+- **bengali-date** — full reformed Bangla calendar date (`2024-04-14` → `১ বৈশাখ, ১৪৩১`)
 - **season** — Bengali season (`1` → `গ্রীষ্ম`)
 - **day** — weekday from number or English name (`monday` → `সোমবার`)
 - **date** — formatted Bangla date (`2024-01-15` → `১৫ জানুয়ারি, ২০২৪`)
+- **week** — ISO week number in Bangla digits (`2024-01-01` → `১`)
 - **time** — clock or spoken time (`14:30` → `১৪:৩০`, or words → `দুপুর দুইটা ত্রিশ মিনিট`)
 - **duration** — seconds to Bangla (`3665` → `১ ঘণ্টা ১ মিনিট ৫ সেকেন্ড`)
 - **age** — age from a birth date (`1990-01-15` → `৩৫ বছর …`)
@@ -52,14 +54,26 @@ Optional attributes: `prefix`, `suffix`, `words` (for percentage/time), `date_fo
 `[ntb_num value="2024-01-15" format="date" date_format="d/m/Y"]` → `১৫/০১/২০২৪`
 `[ntb_num value="123" format="ordinal" prefix="অবস্থান: "]` → `অবস্থান: ১২৩তম`
 
-Block:
-Add the "Number to Bangla" block in the editor and choose a value and format. Output is rendered live.
+Blocks:
+Add the "Number to Bangla" block in the editor and choose a value and format. Output is rendered live. The "Bangla Clock" block shows a live-ticking clock in Bangla digits (optionally with seconds).
 
 REST API:
 `GET /wp-json/ntb/v1/convert?value=1345.50&format=money`
 
+Convert several values in one request with the batch endpoint (max 100 items):
+
+`POST /wp-json/ntb/v1/batch`
+`{"items":[{"value":"111","format":"word"},{"value":"2024-01-15","format":"bengali-date"}]}`
+
+WP-CLI:
+`wp ntb convert 111 --format=word`
+`wp ntb convert 2024-01-15 --format=bengali-date`
+
+Elementor:
+When Elementor is active, a "Number to Bangla" dynamic tag is available under the Text category for any text field.
+
 Template helpers (PHP):
-`ntb_to_word( 111 )`, `ntb_to_number( 111 )`, `ntb_to_money( 1345.50 )`, `ntb_to_date( '2024-01-15' )`, `ntb_ordinal( 25 )`, and the generic `ntb_convert( $value, $format, $args )`.
+`ntb_to_word( 111 )`, `ntb_to_number( 111 )`, `ntb_to_money( 1345.50 )`, `ntb_to_date( '2024-01-15' )`, `ntb_to_bengali_date( '2024-01-15' )`, `ntb_week_number( '2024-01-15' )`, `ntb_ordinal( 25 )`, and the generic `ntb_convert( $value, $format, $args )`.
 
 Developers can filter output via the `ntb_convert_output` filter.
 
@@ -69,6 +83,15 @@ Developers can filter output via the `ntb_convert_output` filter.
 3. Inserting the "Number to Bangla" block from the block inserter.
 
 == Changelog ==
+
+= 2.1.0 =
+* Compatibility: tested up to WordPress 7.0.1.
+* New formats: `bengali-date` (full reformed Bangla calendar date, day/month/year) and `week` (ISO week number).
+* New "Bangla Clock" block: a live-ticking clock in Bangla digits, updating client-side every second.
+* New REST endpoint `POST ntb/v1/batch` to convert up to 100 values in a single request.
+* New WP-CLI command: `wp ntb convert <value> --format=<format>`.
+* New Elementor dynamic tag ("Number to Bangla") available when Elementor is active.
+* New template helpers: `ntb_to_bengali_date()`, `ntb_week_number()`.
 
 = 2.0.1 =
 * Compatibility: tested up to WordPress 7.0; raised "Requires at least" to 5.6 (matches the block editor APIs used).

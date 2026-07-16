@@ -131,6 +131,43 @@ class ConverterTest extends TestCase
         $this->assertFalse(BanglaNumberConverter::bnDate('not-a-date'));
     }
 
+    /* ---- bnWeekNumber ---------------------------------------------------- */
+
+    public function testBnWeekNumber()
+    {
+        $this->assertSame('১', BanglaNumberConverter::bnWeekNumber('2024-01-01'));
+        $this->assertSame('৫২', BanglaNumberConverter::bnWeekNumber('2024-12-23'));
+        $this->assertFalse(BanglaNumberConverter::bnWeekNumber('not-a-date'));
+    }
+
+    /* ---- bnBengaliDate --------------------------------------------------- */
+
+    public function testBnBengaliDateNewYear()
+    {
+        $this->assertSame('১ বৈশাখ, ১৪৩১', BanglaNumberConverter::bnBengaliDate('2024-04-14'));
+        $this->assertSame('৩০ চৈত্র, ১৪৩০', BanglaNumberConverter::bnBengaliDate('2024-04-13'));
+    }
+
+    public function testBnBengaliDateLeapFalgun()
+    {
+        // Bangla year 1430 (Apr 2023-Apr 2024) absorbs the Gregorian 2024 leap
+        // day into Falgun (31 days); 1431 (Apr 2024-Apr 2025) does not.
+        $this->assertSame('৩১ ফাল্গুন, ১৪৩০', BanglaNumberConverter::bnBengaliDate('2024-03-14'));
+        $this->assertSame('১ চৈত্র, ১৪৩০', BanglaNumberConverter::bnBengaliDate('2024-03-15'));
+        $this->assertSame('৩০ ফাল্গুন, ১৪৩১', BanglaNumberConverter::bnBengaliDate('2025-03-14'));
+        $this->assertSame('১ চৈত্র, ১৪৩১', BanglaNumberConverter::bnBengaliDate('2025-03-15'));
+    }
+
+    public function testBnBengaliDateCustomFormat()
+    {
+        $this->assertSame('০১/০১/১৪৩১', BanglaNumberConverter::bnBengaliDate('2024-04-14', 'm/d/Y'));
+    }
+
+    public function testBnBengaliDateInvalid()
+    {
+        $this->assertFalse(BanglaNumberConverter::bnBengaliDate('not-a-date'));
+    }
+
     /* ---- bnTime -------------------------------------------------------- */
 
     public function testBnTimeDigits()

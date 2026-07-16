@@ -9,6 +9,10 @@
  * loaded before the script runs.
  */
 
+if (!defined('ABSPATH')) {
+    exit; // No direct access.
+}
+
 return array(
     'dependencies' => array(
         'wp-api-fetch',
@@ -19,5 +23,5 @@ return array(
         'wp-i18n',
         'wp-url',
     ),
-    'version' => '2.0.1',
+    'version' => '2.1.0',
 );

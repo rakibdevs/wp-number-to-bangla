@@ -75,6 +75,12 @@ if (!function_exists('ntb_convert')) {
             case 'date':
                 $output = BanglaNumberConverter::bnDate($value, $args['date_format']);
                 break;
+            case 'bengali-date':
+                $output = BanglaNumberConverter::bnBengaliDate($value, $args['date_format']);
+                break;
+            case 'week':
+                $output = BanglaNumberConverter::bnWeekNumber($value);
+                break;
             case 'day':
                 $output = BanglaNumberConverter::bnDay($value);
                 break;
@@ -166,6 +172,33 @@ if (!function_exists('ntb_to_date')) {
     function ntb_to_date($value, $format = 'j F, Y')
     {
         return ntb_convert($value, 'date', ['date_format' => $format]);
+    }
+}
+
+if (!function_exists('ntb_to_bengali_date')) {
+    /**
+     * Convert a Gregorian date to the reformed Bangla calendar date.
+     *
+     * @param string|int $value
+     * @param string     $format
+     * @return string|false
+     */
+    function ntb_to_bengali_date($value, $format = 'j F, Y')
+    {
+        return ntb_convert($value, 'bengali-date', ['date_format' => $format]);
+    }
+}
+
+if (!function_exists('ntb_week_number')) {
+    /**
+     * Get the ISO week number of a date in Bangla digits.
+     *
+     * @param string|int $value
+     * @return string|false
+     */
+    function ntb_week_number($value)
+    {
+        return ntb_convert($value, 'week');
     }
 }
 
